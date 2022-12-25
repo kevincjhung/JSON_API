@@ -3,13 +3,15 @@ const mysql = require("mysql2")
 const pool = mysql
 	.createPool({
 		host: "127.0.0.1",
-		user: "tasklist_app_user",
+		user: "root",
 		password: "root",
 		database: "tasklist_app",
 	})
 	.promise() // This exposes the promise query functions from the mysql 2 library 
 
-
+/**
+ * @returns all tasks 
+ */
 function getTasks() {
 	return pool.query(`SELECT * FROM tasks`)
 }
@@ -30,10 +32,12 @@ function getTask(id) {
 exports.getTask = getTask
 
 
+
 function addTask(title) {
+	
 	let query = `
     INSERT INTO tasks (title)
-    VALUES ?`;
+    VALUES (?)`;
 
 	return pool.query(query, [title])
 		.then(result => {
@@ -45,15 +49,15 @@ function addTask(title) {
 exports.addTask = addTask
 
 
-function updateTask(id, title, completed) {
+function updateTask(title, completed, id) {
 	let query = `
 		UPDATE tasks
 		SET 
-		title = ?
+		title = ?,
 		completed = ?
 		WHERE id = ?`;
 
-	return pool.query(query, [title], [completed], [id])
+	return pool.query(query, [title, completed, id])
 }
 exports.updateTask = updateTask
 
@@ -61,8 +65,9 @@ exports.updateTask = updateTask
 function deleteTask(id) {
 	let query = `
 		DELETE FROM tasks 
-		WHERE id = '[id]';`
+		WHERE id = ?;`
 
-	return pool.query(query, [id], cb);
-``}
+	return pool.query(query, [id])
+		
+}
 exports.deleteTask = deleteTask
