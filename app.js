@@ -23,7 +23,7 @@ export default function makeApp(database) {
 				return;
 			}
 
-			res.status(200).send(tasks);
+			res.status(201).send(tasks);
 
 		} catch (error) {
 			console.error(error);
