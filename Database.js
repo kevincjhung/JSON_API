@@ -34,10 +34,10 @@ class Database {
 
   addTask(title) {
     const task = {
-      id: this.currentId,
-      title,
-      timestamp: Date.now(),
-      completed: false
+      "id": this.currentId,
+      "title": title,
+      "timestamp": Date.now(),
+      "completed": false
     }
     this.currentId++;
     return task
@@ -53,7 +53,8 @@ class Database {
   }
 
   deleteTask(id) {
-    this.task = this.task.filter(task => task.id !== id)
+     console.log("leID: ", id)
+    this.tasks = this.tasks.filter(task => task.id !== id)
   }
 }
 
